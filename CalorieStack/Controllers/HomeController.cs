@@ -28,7 +28,15 @@ namespace CalorieStack.Controllers
             // then create a new Day for today
             if (day == null)
             {
-                context.Days.RemoveRange(context.Days.Where(d => d.StackId == "sample"));
+                // TODO: Figure out how to do this better with cascading deletes
+                var sampleDays = context.Days.Where(d => d.StackId == "sample");
+                var sampleMeals = context.Meals.Where(m => sampleDays.Any(d => d.Id == m.DayId));
+                var sampleFoodItems = context.FoodItems.Where(fi => sampleMeals.Any(m => fi.MealId == m.Id));
+
+                context.FoodItems.RemoveRange(sampleFoodItems);
+                context.Meals.RemoveRange(sampleMeals);
+                context.Days.RemoveRange(sampleDays);
+
                 day = context.Days.Add(Day.GetSampleDay());
 
                 context.SaveChanges();

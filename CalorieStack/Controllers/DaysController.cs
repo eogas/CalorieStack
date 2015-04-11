@@ -36,6 +36,25 @@ namespace CalorieStack.Controllers
             return Ok(day);
         }
 
+        // GET: api/Days/5/2015/04/10
+        [ResponseType(typeof(Day))]
+        public async Task<IHttpActionResult> GetDay(string stackId, int year, int month, int dayOfMonth)
+        {
+            Day day = await db.Days.Include(d => d.Meals.Select(m => m.Items)).FirstOrDefaultAsync(d =>
+                d.StackId == stackId &&
+                d.Date.Year == year &&
+                d.Date.Month == month &&
+                d.Date.Day == dayOfMonth
+            );
+
+            if (day == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(day);
+        }
+
         // PUT: api/Days/5
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutDay(int id, Day day)

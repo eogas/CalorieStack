@@ -1,14 +1,14 @@
 
 ngApp.controller('FoodCtrl', function($scope, $resource) {
 
-	var Stack = $resource('/stack/:id/:year/:month/:day', {
+	var Stack = $resource('./api/days/:id/:year/:month/:day', {
 		stackId: '@id',
 		year: '@year',
 		month: '@month',
 		day: '@day'
 	});
-	var Meal = $resource('/meal/:id', { id: '@id' });
-	var FoodItem = $resource('/fooditem/:id', { id: '@id' }, {
+	var Meal = $resource('./api/meal/:id', { id: '@id' });
+	var FoodItem = $resource('./api/fooditem/:id', { id: '@id' }, {
 		update: { method: 'PUT' }
 	});
 
@@ -135,7 +135,7 @@ ngApp.controller('FoodCtrl', function($scope, $resource) {
 		var cals = 0;
 
 		meal.items.forEach(function(item) {
-			cals += item.cals;
+			cals += item.calories;
 		});
 
 		if ($.isNumeric(cals)) {
