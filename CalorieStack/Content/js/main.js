@@ -7,8 +7,8 @@ ngApp.controller('FoodCtrl', function($scope, $resource) {
 		month: '@month',
 		day: '@day'
 	});
-	var Meal = $resource('./api/meal/:id', { id: '@id' });
-	var FoodItem = $resource('./api/fooditem/:id', { id: '@id' }, {
+	var Meal = $resource('./api/meals/:id', { id: '@id' });
+	var FoodItem = $resource('./api/fooditems/:id', { id: '@id' }, {
 		update: { method: 'PUT' }
 	});
 

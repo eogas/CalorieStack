@@ -30,12 +30,17 @@ namespace CalorieStack.Models
                             new FoodItem()
                             {
                                 Name="Eggs",
-                                Calories=123
+                                Calories=180
                             },
                             new FoodItem()
                             {
                                 Name="Bacon",
-                                Calories=456
+                                Calories=172
+                            },
+                            new FoodItem()
+                            {
+                                Name="Orange Juice",
+                                Calories=111
                             }
                         }
                     },
@@ -47,12 +52,17 @@ namespace CalorieStack.Models
                             new FoodItem()
                             {
                                 Name="Burger",
-                                Calories=222
+                                Calories=254
                             },
                             new FoodItem()
                             {
                                 Name="Fries",
-                                Calories=333
+                                Calories=365
+                            },
+                            new FoodItem()
+                            {
+                                Name="Soda",
+                                Calories=182
                             }
                         }
                     },
@@ -69,7 +79,12 @@ namespace CalorieStack.Models
                             new FoodItem()
                             {
                                 Name="Yogurt",
-                                Calories=200
+                                Calories=100
+                            },
+                            new FoodItem()
+                            {
+                                Name="Beer",
+                                Calories=308
                             }
                         }
                     }
