@@ -18,6 +18,13 @@ namespace CalorieStack.Models
         public CalorieStackContext()
             : base("DefaultConnection")
         {
+            Configuration.LazyLoadingEnabled = false;
+            Configuration.ProxyCreationEnabled = false;
+
+            Database.SetInitializer(
+                new MigrateDatabaseToLatestVersion
+                    <CalorieStackContext, CalorieStackMigrationsConfiguration>()
+            );
         }
 
         public DbSet<FoodItem> FoodItems { get; set; }

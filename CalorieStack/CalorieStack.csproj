@@ -119,6 +119,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -161,8 +162,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CalorieStackContext.cs" />
+    <Compile Include="Models\CalorieStackMigrationsConfiguration.cs" />
     <Compile Include="Models\Day.cs" />
     <Compile Include="Models\FoodItem.cs" />
     <Compile Include="Models\Meal.cs" />
@@ -171,8 +172,20 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\3rdparty\bootstrap-3.2.0-dist\css\bootstrap-theme.css" />
+    <Content Include="Content\3rdparty\bootstrap-3.2.0-dist\css\bootstrap-theme.min.css" />
+    <Content Include="Content\3rdparty\bootstrap-3.2.0-dist\css\bootstrap.css" />
+    <Content Include="Content\3rdparty\bootstrap-3.2.0-dist\css\bootstrap.min.css" />
+    <Content Include="Content\3rdparty\bootstrap-3.2.0-dist\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\3rdparty\bootstrap-3.2.0-dist\js\bootstrap.js" />
+    <Content Include="Content\3rdparty\bootstrap-3.2.0-dist\js\bootstrap.min.js" />
+    <Content Include="Content\3rdparty\bootstrap-datetimepicker\css\bootstrap-datetimepicker.css" />
+    <Content Include="Content\3rdparty\bootstrap-datetimepicker\css\bootstrap-datetimepicker.min.css" />
+    <Content Include="Content\3rdparty\bootstrap-datetimepicker\js\bootstrap-datetimepicker.min.js" />
+    <Content Include="Content\3rdparty\momentjs\js\moment.min.js" />
+    <Content Include="Content\css\base.css" />
+    <Content Include="Content\js\home.js" />
+    <Content Include="Content\js\main.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -197,6 +210,11 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
+    <Content Include="Content\3rdparty\bootstrap-3.2.0-dist\css\bootstrap-theme.css.map" />
+    <Content Include="Content\3rdparty\bootstrap-3.2.0-dist\css\bootstrap.css.map" />
+    <Content Include="Content\3rdparty\bootstrap-3.2.0-dist\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\3rdparty\bootstrap-3.2.0-dist\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\3rdparty\bootstrap-3.2.0-dist\fonts\glyphicons-halflings-regular.woff" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -213,7 +231,6 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
-    <Content Include="Content\Site.css" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
@@ -221,6 +238,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\Home\Stack.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
