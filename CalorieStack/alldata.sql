@@ -5,9 +5,9 @@ select *
   join Days
     on days.StackId = stacks.Id
   join Meals
-    on meals.Day_Id = Days.id
+    on meals.DayId = Days.id
   join FoodItems
-    on FoodItems.Meal_Id = meals.Id
+    on FoodItems.MealId = meals.Id
 
 
 /* drop everything */

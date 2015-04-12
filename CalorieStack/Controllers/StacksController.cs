@@ -81,6 +81,14 @@ namespace CalorieStack.Controllers
                 return BadRequest(ModelState);
             }
 
+            if (stack.Days == null || stack.Days.Count < 1)
+            {
+                stack.Days = new List<Day>()
+                {
+                    Day.CreateDefault()
+                };
+            }
+
             db.Stacks.Add(stack);
 
             try

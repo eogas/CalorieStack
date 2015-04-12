@@ -23,7 +23,7 @@ namespace CalorieStack.Models
                 Id = "sample",
                 Days = new List<Day>()
                 {
-                    Day.GetSampleDay()
+                    Day.CreateSample()
                 }
             });
 

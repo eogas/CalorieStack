@@ -14,7 +14,30 @@ namespace CalorieStack.Models
         public DateTime Date { get; set; }
         public List<Meal> Meals { get; set; }
 
-        public static Day GetSampleDay()
+        public static Day CreateDefault()
+        {
+            return new Day()
+            {
+                Date = DateTime.Today,
+                Meals = new List<Meal>()
+                {
+                    new Meal()
+                    {
+                        Name="Breakfast"
+                    },
+                    new Meal()
+                    {
+                        Name="Lunch"
+                    },
+                    new Meal()
+                    {
+                        Name="Dinner"
+                    }
+                }
+            };
+        }
+
+        public static Day CreateSample()
         {
             return new Day()
             {

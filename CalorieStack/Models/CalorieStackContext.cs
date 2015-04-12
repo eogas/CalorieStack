@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace CalorieStack.Models
@@ -25,6 +27,42 @@ namespace CalorieStack.Models
                 new MigrateDatabaseToLatestVersion
                     <CalorieStackContext, CalorieStackMigrationsConfiguration>()
             );
+        }
+
+        // http://stackoverflow.com/a/5277642
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // Set Id as the key for Stack entries
+            modelBuilder.Entity<Stack>().HasKey(s => s.Id);
+
+            // Turn off autogeneration for Stack ids
+            modelBuilder.Entity<Stack>()
+                .Property(s => s.Id)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+        }
+
+        public override Task<int> SaveChangesAsync()
+        {
+            foreach (var stackEntry in ChangeTracker.Entries<Stack>()
+                .Where(e => e.State == EntityState.Added))
+            {
+                stackEntry.Entity.Id = Stack.GenerateId();
+            }
+
+            return base.SaveChangesAsync();
+        }
+
+        public override int SaveChanges()
+        {
+            foreach(var stackEntry in ChangeTracker.Entries<Stack>()
+                .Where(e => e.State == EntityState.Added))
+            {
+                stackEntry.Entity.Id = Stack.GenerateId();
+            }
+
+            return base.SaveChanges();
         }
 
         public DbSet<FoodItem> FoodItems { get; set; }

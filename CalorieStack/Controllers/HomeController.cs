@@ -37,7 +37,7 @@ namespace CalorieStack.Controllers
                 context.Meals.RemoveRange(sampleMeals);
                 context.Days.RemoveRange(sampleDays);
 
-                day = context.Days.Add(Day.GetSampleDay());
+                day = context.Days.Add(Day.CreateSample());
 
                 context.SaveChanges();
             }
