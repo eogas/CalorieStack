@@ -1,176 +1,196 @@
 
 ngApp.controller('FoodCtrl', function($scope, $resource) {
 
-	var Stack = $resource('./api/days/:id/:year/:month/:day', {
-		stackId: '@id',
-		year: '@year',
-		month: '@month',
-		day: '@day'
-	});
-	var Meal = $resource('./api/meals/:id', { id: '@id' });
-	var FoodItem = $resource('./api/fooditems/:id', { id: '@id' }, {
-		update: { method: 'PUT' }
-	});
+    var StackDay = $resource('./api/days/:stackId/:year/:month/:day', {
+        stackId: '@stackId',
+        year: '@year',
+        month: '@month',
+        day: '@day'
+    });
 
-	$scope.MealStateEnum = {
-		View: 0, Add: 1
-	};
+    var Meal = $resource('./api/meals/:id', { id: '@id' });
 
-	$scope.ItemStateEnum = {
-		View: 0, Edit: 1
-	};
+    var FoodItem = $resource('./api/fooditems/:id', { id: '@id' }, {
+        update: { method: 'PUT' }
+    });
 
-	$scope.init = function(stackId, year, month, day) {
-		$scope.stackId = stackId;
-		$scope.currentDate = moment([year, month - 1, day]);
+    $scope.MealStateEnum = {
+        View: 0, Add: 1
+    };
 
-		// fetch all meals
-		Stack.get({
-			id: stackId,
-			year: year,
-			month: month,
-			day: day
-		}, function(data) {
-			var meals = data.meals.map(function(meal) {
-				meal.items = meal.items.map(function(item) {
-					return new FoodItem($.extend(item, {
-						state: $scope.ItemStateEnum.View
-					}));
-				});
+    $scope.ItemStateEnum = {
+        View: 0, Edit: 1
+    };
 
-				return $.extend(meal, {
-					state: $scope.MealStateEnum.View
-				});
-			});
+    // Fetches current StackDay
+    var dataFetch = function () {
+        StackDay.get({
+            stackId: $scope.stackId,
+            year: $scope.currentDate.year(),
+            month: $scope.currentDate.month() + 1,
+            day: $scope.currentDate.date()
+        }, function (data) {
+            dataMap(data);
+        }, function () {
+            // Specified StackDay doesn't exist yet, let's create it
+            var newStack = new StackDay({
+                stackId: $scope.stackId,
+                date: $scope.currentDate.hours(0).minutes(0).seconds(0)
+            });
 
-			$scope.stack = data;
-			$scope.meals = meals; // TODO: refactor this out
-		});
+            // Save new StackDay and map data
+            newStack.$save(function (data) {
+                dataMap(data);
+            });
+        });
+    };
 
-		$('#datepicker').datetimepicker({
-			pickTime: false,
-			maxDate: moment(),
-			defaultDate: $scope.currentDate
-		}).on('dp.change', function(e) {
-			document.location = ['',
-				$scope.stackId,
-				e.date.year(),
-				e.date.month() + 1,
-				e.date.date()
-			].join('/');
-		});
-	};
+    // Maps retrieved data to $scope
+    var dataMap = function (data) {
+        var meals = data.meals.map(function (meal) {
+            meal.items = meal.items.map(function (item) {
+                return new FoodItem($.extend(item, {
+                    state: $scope.ItemStateEnum.View
+                }));
+            });
 
-	$scope.original = {};
+            return $.extend(meal, {
+                state: $scope.MealStateEnum.View
+            });
+        });
 
-	$scope.itemSelect = function(item) {
-		// cancel edit of other items
-		$scope.meals.forEach(function(meal) {
-			meal.items.forEach(function(foodItem) {
-				if (foodItem !== item && foodItem.state == $scope.ItemStateEnum.Edit) {
-					$scope.cancelEdit(foodItem);
-				}
-			});
-		});
+        $scope.stack = data;
+        $scope.meals = meals;
+    };
 
-		angular.copy(item, $scope.original);
-		item.state = $scope.ItemStateEnum.Edit;
-	};
+    $scope.init = function(stackId) {
+        $scope.stackId = stackId;
+        $scope.currentDate = moment();
 
-	$scope.cancelEdit = function(item, event) {
-		angular.copy($scope.original, item);
-		item.state = $scope.ItemStateEnum.View;
+        // initial fetch of all data
+        dataFetch();
 
-		// This stops the click from passing through to the list item and
-		// immediately triggering another edit
-		if (event) {
-			event.stopPropagation();
-			event.preventDefault();
-		}
-	};
+        $('#datepicker').datetimepicker({
+            pickTime: false,
+            maxDate: moment(),
+            defaultDate: $scope.currentDate
+        }).on('dp.change', function (e) {
+            // Change current date and refetch all data
+            $scope.currentDate = e.date;
+            dataFetch();
+        });
+    };
 
-	$scope.saveEdit = function(item, event) {
-		item.$update(function() {
-			item.state = $scope.ItemStateEnum.View;
-		});
+    $scope.original = {};
 
-		// This stops the click from passing through to the list item and
-		// immediately triggering another edit
-		if (event) {
-			event.stopPropagation();
-			event.preventDefault();
-		}
-	};
+    $scope.itemSelect = function(item) {
+        // cancel edit of other items
+        $scope.meals.forEach(function(meal) {
+            meal.items.forEach(function(foodItem) {
+                if (foodItem !== item && foodItem.state == $scope.ItemStateEnum.Edit) {
+                    $scope.cancelEdit(foodItem);
+                }
+            });
+        });
 
-	$scope.deleteItem = function(item, meal, index) {
-		item.$remove(function() {
-			meal.items.splice(index, 1);
-		});
-	};
+        angular.copy(item, $scope.original);
+        item.state = $scope.ItemStateEnum.Edit;
+    };
 
-	$scope.addItem = function(meal) {
-		meal.state = $scope.MealStateEnum.Add;
-	};
+    $scope.cancelEdit = function(item, event) {
+        angular.copy($scope.original, item);
+        item.state = $scope.ItemStateEnum.View;
 
-	$scope.saveAdd = function(meal, item) {
-		item.state = $scope.ItemStateEnum.View;
-		meal.state = $scope.MealStateEnum.View;
+        // This stops the click from passing through to the list item and
+        // immediately triggering another edit
+        if (event) {
+            event.stopPropagation();
+            event.preventDefault();
+        }
+    };
 
-		var newItem = new FoodItem(item);
-		newItem.mealId = meal.id;
-		newItem.$save(function(cbItem) {
-			$.extend(cbItem, {
-				state: $scope.ItemStateEnum.View
-			});
-			meal.items.push(cbItem);
-		});
-	};
+    $scope.saveEdit = function(item, event) {
+        item.$update(function() {
+            item.state = $scope.ItemStateEnum.View;
+        });
 
-	$scope.cancelAdd = function(meal, item) {
-		item = {};
-		meal.state = $scope.MealStateEnum.View;
-	};
+        // This stops the click from passing through to the list item and
+        // immediately triggering another edit
+        if (event) {
+            event.stopPropagation();
+            event.preventDefault();
+        }
+    };
 
-	$scope.mealCals = function(meal) {
-		var cals = 0;
+    $scope.deleteItem = function(item, meal, index) {
+        item.$remove(function() {
+            meal.items.splice(index, 1);
+        });
+    };
 
-		meal.items.forEach(function(item) {
-			cals += item.calories;
-		});
+    $scope.addItem = function(meal) {
+        meal.state = $scope.MealStateEnum.Add;
+    };
 
-		if ($.isNumeric(cals)) {
-			meal.totalCals = cals;
-		}
+    $scope.saveAdd = function(meal, item) {
+        item.state = $scope.ItemStateEnum.View;
+        meal.state = $scope.MealStateEnum.View;
 
-		return meal.totalCals;
-	};
+        var newItem = new FoodItem(item);
+        newItem.mealId = meal.id;
+        newItem.$save(function(cbItem) {
+            $.extend(cbItem, {
+                state: $scope.ItemStateEnum.View
+            });
+            meal.items.push(cbItem);
+        });
+    };
 
-	$scope.dayCals = function() {
-		var cals = 0;
+    $scope.cancelAdd = function(meal, item) {
+        item = {};
+        meal.state = $scope.MealStateEnum.View;
+    };
 
-		if (!$scope.meals) {
-			return 0;
-		}
+    $scope.mealCals = function(meal) {
+        var cals = 0;
 
-		$scope.meals.forEach(function(meal) {
-			cals += meal.totalCals;
-		});
+        meal.items.forEach(function(item) {
+            cals += item.calories;
+        });
 
-		return cals;
-	};
+        if ($.isNumeric(cals)) {
+            meal.totalCals = cals;
+        }
 
-	// watch for edit form creation so we can set focus
-	$scope.$watch(function() {
-		return $('[name="editForm"]')[0];
-	}, function(newVal, oldVal) {
-		newVal && $(newVal).find('input')[0].focus();
-	});
+        return meal.totalCals;
+    };
 
-	// watch for add form creation so we can set focus
-	// TODO: may need to limit to one add form at a time
-	$scope.$watch(function() {
-		return $('[name="addForm"]')[0];
-	}, function(newVal, oldVal) {
-		newVal && $(newVal).find('input')[0].focus();
-	});
+    $scope.dayCals = function() {
+        var cals = 0;
+
+        if (!$scope.meals) {
+            return 0;
+        }
+
+        $scope.meals.forEach(function(meal) {
+            cals += meal.totalCals;
+        });
+
+        return cals;
+    };
+
+    // watch for edit form creation so we can set focus
+    $scope.$watch(function() {
+        return $('[name="editForm"]')[0];
+    }, function(newVal, oldVal) {
+        newVal && $(newVal).find('input')[0].focus();
+    });
+
+    // watch for add form creation so we can set focus
+    // TODO: may need to limit to one add form at a time
+    $scope.$watch(function() {
+        return $('[name="addForm"]')[0];
+    }, function(newVal, oldVal) {
+        newVal && $(newVal).find('input')[0].focus();
+    });
 });

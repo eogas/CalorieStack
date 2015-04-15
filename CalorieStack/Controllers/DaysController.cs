@@ -99,6 +99,11 @@ namespace CalorieStack.Controllers
                 return BadRequest(ModelState);
             }
 
+            if (day.Meals == null)
+            {
+                day.Meals = Meal.CreateDefaultSet();
+            }
+
             db.Days.Add(day);
             await db.SaveChangesAsync();
 

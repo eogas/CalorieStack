@@ -19,21 +19,7 @@ namespace CalorieStack.Models
             return new Day()
             {
                 Date = DateTime.Today,
-                Meals = new List<Meal>()
-                {
-                    new Meal()
-                    {
-                        Name="Breakfast"
-                    },
-                    new Meal()
-                    {
-                        Name="Lunch"
-                    },
-                    new Meal()
-                    {
-                        Name="Dinner"
-                    }
-                }
+                Meals = Meal.CreateDefaultSet()
             };
         }
 

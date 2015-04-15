@@ -26,7 +26,7 @@ namespace CalorieStack.Controllers
             
             // If the sample Stack doesn't have a Day for today, delete all other sample Days,
             // then create a new Day for today
-            if (day == null)
+            if (id == "sample" && day == null)
             {
                 // TODO: Figure out how to do this better with cascading deletes
                 var sampleDays = context.Days.Where(d => d.StackId == "sample");

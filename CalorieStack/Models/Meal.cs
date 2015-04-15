@@ -13,5 +13,15 @@ namespace CalorieStack.Models
 
         public string Name { get; set; }
         public List<FoodItem> Items { get; set; }
+
+        public static List<Meal> CreateDefaultSet()
+        {
+            return new List<Meal>()
+            {
+                new Meal() { Name="Breakfast", Items=new List<FoodItem>() },
+                new Meal() { Name="Lunch", Items=new List<FoodItem>() },
+                new Meal() { Name="Dinner", Items=new List<FoodItem>() }
+            };
+        }
     }
 }
