@@ -24,24 +24,17 @@
                     </span>
                 </div>
             </div>
-
-            <!--div class='input-group date' id='datepicker'>
-                <input type='text' class="form-control" />
-                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
-                </span>
-            </div-->
         </div>
     </div>
 
-    <div ng-if="stack.reminder" class="row">
+    <div ng-if="!stack.isReminderDismissed" class="row">
         <div class="col-md-12">
             <div class="alert alert-info" role="alert">
-                <button type="button" class="close" data-dismiss="alert">
+                <button type="button" class="close" data-dismiss="alert" ng-click="dismissReminder()">
                     <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
                 </button>
                 Don't forget to <strong>save the URL</strong> to this stack as a bookmark.
-                <!-- TODO button type="button">I already did!</button>
-                <button type="button">How do I do that?</button -->
+                <!-- TODO "Here's how" link that links to some instructional info -->
             </div>
         </div>
     </div>

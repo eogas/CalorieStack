@@ -11,6 +11,8 @@ namespace CalorieStack.Models
 
         public List<Day> Days { get; set; }
 
+        public bool IsReminderDismissed { get; set; }
+
         // Just throw this here for now.  If we need this functionality elsewhere,
         // break out into some sort of util class
         private const string ID_CHARS = "abcdefghijklmnopqrstuvwxyz1234567890";

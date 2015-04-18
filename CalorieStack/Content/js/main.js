@@ -1,5 +1,9 @@
 
-ngApp.controller('FoodCtrl', function($scope, $resource) {
+ngApp.controller('FoodCtrl', function ($scope, $resource) {
+
+    var Stack = $resource('./api/stacks/:id', { id: '@id' }, {
+        update: { method: 'PUT' }
+    });
 
     var StackDay = $resource('./api/days/:stackId/:year/:month/:day', {
         stackId: '@stackId',
@@ -33,13 +37,13 @@ ngApp.controller('FoodCtrl', function($scope, $resource) {
             dataMap(data);
         }, function () {
             // Specified StackDay doesn't exist yet, let's create it
-            var newStack = new StackDay({
+            var newDay = new StackDay({
                 stackId: $scope.stackId,
                 date: $scope.currentDate.hours(0).minutes(0).seconds(0)
             });
 
             // Save new StackDay and map data
-            newStack.$save(function (data) {
+            newDay.$save(function (data) {
                 dataMap(data);
             });
         });
@@ -59,7 +63,6 @@ ngApp.controller('FoodCtrl', function($scope, $resource) {
             });
         });
 
-        $scope.stack = data;
         $scope.meals = meals;
     };
 
@@ -67,7 +70,11 @@ ngApp.controller('FoodCtrl', function($scope, $resource) {
         $scope.stackId = stackId;
         $scope.currentDate = moment();
 
-        // initial fetch of all data
+        $scope.stack = Stack.get({
+            id: stackId
+        });
+
+        // initial fetch of stackDay data
         dataFetch();
 
         $('#datepicker').datetimepicker({
@@ -82,6 +89,11 @@ ngApp.controller('FoodCtrl', function($scope, $resource) {
     };
 
     $scope.original = {};
+
+    $scope.dismissReminder = function () {
+        $scope.stack.isReminderDismissed = true;
+        $scope.stack.$update();
+    };
 
     $scope.itemSelect = function(item) {
         // cancel edit of other items
