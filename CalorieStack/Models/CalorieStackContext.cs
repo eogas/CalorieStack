@@ -52,7 +52,10 @@ namespace CalorieStack.Models
             foreach (var stackEntry in ChangeTracker.Entries<Stack>()
                 .Where(e => e.State == EntityState.Added))
             {
-                stackEntry.Entity.Id = Stack.GenerateId();
+                if (String.IsNullOrEmpty(stackEntry.Entity.Id))
+                {
+                    stackEntry.Entity.Id = Stack.GenerateId();
+                }
             }
 
             return base.SaveChangesAsync();
@@ -63,7 +66,10 @@ namespace CalorieStack.Models
             foreach(var stackEntry in ChangeTracker.Entries<Stack>()
                 .Where(e => e.State == EntityState.Added))
             {
-                stackEntry.Entity.Id = Stack.GenerateId();
+                if (String.IsNullOrEmpty(stackEntry.Entity.Id))
+                {
+                    stackEntry.Entity.Id = Stack.GenerateId();
+                }
             }
 
             return base.SaveChanges();
