@@ -18,7 +18,11 @@ namespace CalorieStack.Models
         // http://msdn.microsoft.com/en-us/data/jj591621.aspx
 
         public CalorieStackContext()
-            : base("DefaultConnection")
+#if DEBUG
+            : base("LocalConnection")
+#else
+            : base("AzureConnection")
+#endif
         {
             Configuration.LazyLoadingEnabled = false;
             Configuration.ProxyCreationEnabled = false;
