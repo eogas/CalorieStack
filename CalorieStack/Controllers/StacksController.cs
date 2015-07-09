@@ -85,7 +85,7 @@ namespace CalorieStack.Controllers
             {
                 stack.Days = new List<Day>()
                 {
-                    Day.CreateDefault()
+                    Day.CreateDefault(stack.Id)
                 };
             }
 

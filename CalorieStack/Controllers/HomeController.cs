@@ -27,7 +27,7 @@ namespace CalorieStack.Controllers
             if (day == null)
             {
                 // Create the current Day if it is missing
-                day = context.Days.Add(Day.CreateDefault());
+                day = context.Days.Add(Day.CreateDefault(id));
                 context.SaveChanges();
             }
 

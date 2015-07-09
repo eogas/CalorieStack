@@ -14,10 +14,11 @@ namespace CalorieStack.Models
         public DateTime Date { get; set; }
         public List<Meal> Meals { get; set; }
 
-        public static Day CreateDefault()
+        public static Day CreateDefault(string stackId)
         {
             return new Day()
             {
+                StackId = stackId,
                 Date = DateTime.Today,
                 Meals = Meal.CreateDefaultSet()
             };
