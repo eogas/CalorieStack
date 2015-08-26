@@ -1,8 +1,8 @@
+using CalorieStack.Areas.HelpPage.ModelDescriptions;
+using CalorieStack.Areas.HelpPage.Models;
 using System;
 using System.Web.Http;
 using System.Web.Mvc;
-using CalorieStack.Areas.HelpPage.ModelDescriptions;
-using CalorieStack.Areas.HelpPage.Models;
 
 namespace CalorieStack.Areas.HelpPage.Controllers
 {

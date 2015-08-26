@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using CalorieStack.Models;
+using System;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using CalorieStack.Models;
 
 namespace CalorieStack.Controllers
 {

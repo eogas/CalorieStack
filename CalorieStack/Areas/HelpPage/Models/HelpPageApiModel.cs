@@ -1,8 +1,8 @@
+using CalorieStack.Areas.HelpPage.ModelDescriptions;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Net.Http.Headers;
 using System.Web.Http.Description;
-using CalorieStack.Areas.HelpPage.ModelDescriptions;
 
 namespace CalorieStack.Areas.HelpPage.Models
 {
