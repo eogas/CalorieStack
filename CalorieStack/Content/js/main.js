@@ -39,7 +39,7 @@ ngApp.controller('FoodCtrl', function ($scope, $resource) {
             // Specified StackDay doesn't exist yet, let's create it
             var newDay = new StackDay({
                 stackId: $scope.stackId,
-                date: $scope.currentDate.hours(0).minutes(0).seconds(0)
+                date: $scope.currentDate.startOf('day')
             });
 
             // Save new StackDay and map data

@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using CalorieStack.Models;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
-using CalorieStack.Models;
 
 namespace CalorieStack.Controllers
 {
@@ -99,7 +96,11 @@ namespace CalorieStack.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (day.Meals == null)
+            if (day.StackId == "sample")
+            {
+                day.Meals = Meal.CreateSampleSet();
+            }
+            else if (day.Meals == null)
             {
                 day.Meals = Meal.CreateDefaultSet();
             }

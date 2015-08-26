@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace CalorieStack.Models
 {
@@ -30,75 +28,7 @@ namespace CalorieStack.Models
             {
                 StackId = "sample",
                 Date = DateTime.Today,
-                Meals = new List<Meal>()
-                {
-                    new Meal()
-                    {
-                        Name="Breakfast",
-                        Items = new List<FoodItem>()
-                        {
-                            new FoodItem()
-                            {
-                                Name="Eggs",
-                                Calories=180
-                            },
-                            new FoodItem()
-                            {
-                                Name="Bacon",
-                                Calories=172
-                            },
-                            new FoodItem()
-                            {
-                                Name="Orange Juice",
-                                Calories=111
-                            }
-                        }
-                    },
-                    new Meal()
-                    {
-                        Name="Lunch",
-                        Items = new List<FoodItem>()
-                        {
-                            new FoodItem()
-                            {
-                                Name="Burger",
-                                Calories=254
-                            },
-                            new FoodItem()
-                            {
-                                Name="Fries",
-                                Calories=365
-                            },
-                            new FoodItem()
-                            {
-                                Name="Soda",
-                                Calories=182
-                            }
-                        }
-                    },
-                    new Meal()
-                    {
-                        Name="Dinner",
-                        Items = new List<FoodItem>()
-                        {
-                            new FoodItem()
-                            {
-                                Name="Salad",
-                                Calories=100
-                            },
-                            new FoodItem()
-                            {
-                                Name="Yogurt",
-                                Calories=100
-                            },
-                            new FoodItem()
-                            {
-                                Name="Beer",
-                                Calories=308
-                            }
-                        }
-                    }
-                }
+                Meals = Meal.CreateSampleSet()
             };
         }
     }
